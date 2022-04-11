@@ -2,10 +2,11 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchDogs } from "./app/appSlice";
 import Gallery from "./components/Gallery";
 import Summary from "./components/Summary";
+import { connect } from "react-redux";
+import { fetchDogs as fetchDogsAction } from "./redux/actions/appActions";
+import { like as likeAction } from "./redux/actions/userActions";
 
 const Header = styled.header`
   text-align: center;
@@ -13,15 +14,13 @@ const Header = styled.header`
   padding: 2px;
 `;
 
-function App() {
-  const dispatch = useDispatch();
-  const status = useSelector((state) => state.status);
+function App({ status, dogs, fetchDogs, like }) {
 
   useEffect(() => {
-    dispatch(fetchDogs());
-  }, []);
+    fetchDogs();
+  }, [fetchDogs]);
 
-  if (status === "loading" || status === "idle") {
+  if (status === "pending" || status === "idle") {
     return (
       <div
         css={css`
@@ -36,6 +35,8 @@ function App() {
       </div>
     );
   }
+
+  const dogValues = [...dogs.values()];
 
   return (
     <div>
@@ -52,18 +53,26 @@ function App() {
             flex: 15%;
           `}
         >
-          <Summary />
+          <Summary dogs={dogValues} />
         </div>
         <div
           css={css`
             flex: 85%;
           `}
         >
-          <Gallery />
+          <Gallery dogs={dogValues} onLike={(imageUrl) => like(imageUrl)} />
         </div>
       </div>
     </div>
   );
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+  status: state.status,
+  dogs: state.dogs,
+});
+
+export default connect(mapStateToProps, {
+  fetchDogs: fetchDogsAction,
+  like: likeAction,
+})(App);

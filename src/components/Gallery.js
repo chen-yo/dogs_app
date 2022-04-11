@@ -1,9 +1,5 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import styled from "@emotion/styled";
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { like } from "../app/appSlice";
 
 const styles = {
   gallery: css`
@@ -35,7 +31,7 @@ const styles = {
     position: absolute;
     bottom: 2px;
     margin-left: 2px;
-    margin-bottm: 2px;
+    margin-bottom: 2px;
     background-color: #e0e0e0;
     width: fit-content;
     padding: 2px;
@@ -43,15 +39,13 @@ const styles = {
   `,
 };
 
-export default function Gallery() {
-  const dogImages = useSelector((state) => Object.values(state.dogs));
-  const dispatch = useDispatch();
+export default function Gallery({ dogs, onLike }) {
 
   return (
     <div css={styles.gallery}>
-      {dogImages.map(({ imageUrl, breed, likes }) => (
+      {dogs.map(({ imageUrl, breed, likes }) => (
         <div
-          onClick={() => dispatch(like(imageUrl))}
+          onClick={() => onLike(imageUrl)}
           css={[
             css`
               background: url("${imageUrl}") no-repeat;

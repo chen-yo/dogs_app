@@ -1,8 +1,5 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import styled from "@emotion/styled";
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
 
 function summary(dogs) {
   const map = {};
@@ -23,9 +20,7 @@ function summary(dogs) {
   return map;
 }
 
-export default function Summary() {
-  const dogs = useSelector((state) => Object.values(state.dogs));
-
+export default function Summary({dogs}) {
   const stats = summary(dogs);
 
   return (

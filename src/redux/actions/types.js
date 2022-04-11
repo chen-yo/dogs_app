@@ -1,0 +1,4 @@
+export const FETCH_DOGS_START = "FETCH_DOGS_START";
+export const FETCH_DOGS_SUCCESS = "FETCH_DOGS_SUCCESS";
+export const FETCH_DOGS_FAILED = "FETCH_DOGS_FAILED";
+export const LIKE = "LIKE";
